@@ -19,7 +19,7 @@ const heroAnim = lottie.loadAnimation({
   renderer: "svg",
   loop: false,                                          // くり返さない(くり返しは playBowl で)
   autoplay: false,                                      // 勝手に再生しない
-  path: "lottie/hero.json",                             // ① お椀のファイル名
+  path: "lottie/bowl.json",                             // ① お椀のファイル名
 });
 
 // 樽:自動では再生しない。第4章で、スクロールに合わせて1コマずつ送る
@@ -97,11 +97,11 @@ document.querySelectorAll(".quiz-btn").forEach((btn) => {
 closeBtn.addEventListener("click", () => {
   closeModal();
   // 【完成形で使う】正解のあと(「先へ進む」)なら、地図の章へ進む(使うときは、下の /* と */ を消す)
-  /*
+  
   if (closeBtn.textContent === "先へ進む") {
     document.getElementById("ch2").scrollIntoView({ behavior: "smooth" });
   }
-  */
+  
 });
 
 // 暗幕(箱の外)をクリックしても閉じる
@@ -115,7 +115,6 @@ document.addEventListener("keydown", (event) => {
 });
 
 // 【完成形で使う】トップから下へ動かすと、クイズまで送って一度止める(使うときは、下の /* と */ を消す)
-/*
 const quizSection = document.getElementById("quiz");
 let isMoving = false;     // 自動スクロール中は入力を受け付けない
 let arrivedAt = 0;        // クイズに着いた時刻
@@ -159,7 +158,6 @@ window.addEventListener("keydown", (event) => {
   const dir = down.includes(event.key) ? 1 : up.includes(event.key) ? -1 : 0;
   if (dir && handleIntent(dir)) event.preventDefault();
 });
-*/
 
 
 /* ==================================================================
@@ -196,7 +194,7 @@ function showLayer(layer) {
 
   // ③ 産地の点を、順番にポンと出す
   gsap.from(layer.querySelectorAll(".spot"),
-    { scale: 0, opacity: 0, stagger: .2, ease: "back.out(2)", transformOrigin: "50% 50%" });
+    { scale: 0, opacity: 0, stagger: 0.1, ease: "back.out(2)", transformOrigin: "50% 50%" });
     //                               ↑ 何秒ずつずらすか
 }
 
@@ -225,7 +223,7 @@ document.querySelectorAll(".step").forEach((step) => {
   const layer = document.getElementById("layer-" + step.dataset.layer);
   ScrollTrigger.create({
     trigger: step,
-    start: "top top",                        // ステップの上端が、画面の上から60%に来たら
+    start: "top 60%",                        // ステップの上端が、画面の上から60%に来たら
     end: "bottom 60%",
     // markers: true,                        // ← 位置を確かめたいときはコメントを外す
     onEnter: () => { showLayer(layer); showPanel(step); },  // ① 下に進んで入った
@@ -255,13 +253,13 @@ gsap.to("#viewport3 .steam path", {
 const stops = [
   { id: "all",   x: 800,  y: 500, s: 1,   title: "味噌蔵をのぞく",
     text: "大豆が味噌になるまでを、蔵の中で順番に見ていきます。左の釜から、右の樽へ。" },
-  { id: "mushi", x: 255,  y: 680, s: 2.6, title: "浸す・蒸す",
+  { id: "mushi", x: 255,  y: 680, s: 2.8, title: "浸す・蒸す",
     text: "乾いた大豆を一晩水に浸けると、2倍ほどにふくらみます。それを大きな釜で、指でつぶせるほどやわらかく蒸します。" },
-  { id: "koji",  x: 800,  y: 500, s: 2.6, title: "麹をつくる",
+  { id: "koji",  x: 800,  y: 500, s: 2.8, title: "麹をつくる",
     text: "蒸した米に麹菌をふりかけ、30℃前後に保った部屋で2日ほど。米の表面が白い菌糸でおおわれ、「麹」になります。" },
-  { id: "mix",   x: 800,  y: 500, s: 2.6, title: "混ぜる",
+  { id: "mix",   x: 800,  y: 500, s: 2.8, title: "混ぜる",
     text: "蒸した大豆に、麹と塩を加えてつぶしながら混ぜます。この時点では、まだ淡い黄色のペースト。麹と塩の割合が、味噌の個性を決めます。" },
-  { id: "taru",  x: 800,  y: 500, s: 2.6, title: "寝かせる",
+  { id: "taru",  x: 800,  y: 500, s: 2.8, title: "寝かせる",
     text: "大人の背丈を超える木桶に詰め、石を積んで重しにします。八丁味噌では石を円すい状に積み、2年以上寝かせます。" },
   { id: "dive",  x: 1230, y: 700, s: 5,   title: "樽の中へ",
     text: "仕込みを終えた味噌は、この樽の中で長い眠りにつきます。ここから先は、樽の中の時間の話です。" },
@@ -340,7 +338,7 @@ gsap.to(taru, {
     end: "+=10700",        // ⑤ そこから 10700px 分スクロールしたら終了
     scrub: 1,           // ⑥ スクロールに合わせて進める(1秒遅れでなめらかに)
     pin: true,             // ⑦ その間、#ch1 を画面に固定する
-    markers: true,
+    //markers: true,
   },
 });
 
